@@ -76,8 +76,10 @@ class ProdutoControler {
     }
 
     public function delete($id){
-        $this->DB->beginTransaction();
-        $stmt = $this->DB->prepare("DELETE FROM produtos WHERE id = :id");
+
+        try {
+            $this->DB->beginTransaction();
+            $stmt = $this->DB->prepare("DELETE FROM produtos WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);        
             if ($stmt->execute()) {
                 $this->DB->commit();
@@ -88,6 +90,10 @@ class ProdutoControler {
                 echo json_encode($this->db->errorInfo());
                 http_response_code(500);
             }
+        }catch (\Exception $e) {
+            echo json_encode($e);
+            http_response_code(500);
+        }
     }
 
     private function validAll(){
