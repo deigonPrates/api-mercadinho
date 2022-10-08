@@ -10,7 +10,8 @@ class ProdutoControler {
     }
 
     public function list(){
-        $result = $this->DB->query("SELECT * FROM produtos ORDER BY id DESC ")->fetchAll(PDO::FETCH_OBJ);
+        $result = $this->DB->query("SELECT produtos.*, tipos.nome as tipo_nome FROM produtos 
+        left join tipos on tipos.id = produtos.tipo_id ORDER BY produtos.id DESC ")->fetchAll(PDO::FETCH_OBJ);
         echo json_encode($result);
     }
 
@@ -41,8 +42,19 @@ class ProdutoControler {
     }
 
     public function read($id){
-        $result = $this->DB->query("SELECT * FROM produtos WHERE id = $id")->fetch(PDO::FETCH_OBJ);
-        echo json_encode($result);
+        $stmt = $this->DB->prepare("SELECT produtos.*, tipos.imposto FROM produtos 
+        left join tipos on tipos.id = produtos.tipo_id WHERE produtos.id = :id ORDER BY produtos.id DESC");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            echo json_encode($stmt->fetch(PDO::FETCH_OBJ));
+            http_response_code(200);
+        }else{
+            echo json_encode($this->db->errorInfo());
+            http_response_code(500);
+        }
+
+        
     }
 
     public function update($id){
