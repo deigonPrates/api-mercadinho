@@ -1,5 +1,8 @@
 <?php
-include_once(getcwd().'/app/controllers/VendaControler.php');
+
+namespace app\router;
+
+use app\controllers\VendaControler;
 
 class VendaRotas {
 

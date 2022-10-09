@@ -1,17 +1,17 @@
 <?php
-include_once(getcwd().'/config/db.php');
 
-class ProdutoControler {
+namespace app\controllers;
 
-    private $DB;
+use PDO;
 
-    public function __construct() {
-        $this->DB = Conexao::getConnection();
-    }
+class ProdutoControler extends BaseController {
+
+    protected $DB;
 
     public function list(){
         $result = $this->DB->query("SELECT produtos.*, tipos.nome as tipo_nome FROM produtos 
-        left join tipos on tipos.id = produtos.tipo_id ORDER BY produtos.id DESC ")->fetchAll(PDO::FETCH_OBJ);
+                                    left join tipos on tipos.id = produtos.tipo_id ORDER BY produtos.id DESC ")
+                    ->fetchAll(PDO::FETCH_OBJ);
         echo json_encode($result);
     }
 
@@ -34,7 +34,7 @@ class ProdutoControler {
                 http_response_code(201);
             }else{
                 $this->DB->rollBack();
-                echo json_encode($this->db->errorInfo());
+                echo json_encode($this->DB->errorInfo());
                 http_response_code(500);
             }
         }
@@ -43,14 +43,15 @@ class ProdutoControler {
 
     public function read($id){
         $stmt = $this->DB->prepare("SELECT produtos.*, tipos.imposto FROM produtos 
-        left join tipos on tipos.id = produtos.tipo_id WHERE produtos.id = :id ORDER BY produtos.id DESC");
+                                    left join tipos on tipos.id = produtos.tipo_id 
+                                    WHERE produtos.id = :id ORDER BY produtos.id DESC");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             echo json_encode($stmt->fetch(PDO::FETCH_OBJ));
             http_response_code(200);
         }else{
-            echo json_encode($this->db->errorInfo());
+            echo json_encode($this->DB->errorInfo());
             http_response_code(500);
         }
 
@@ -81,7 +82,7 @@ class ProdutoControler {
                 http_response_code(200);
             }else{
                 $this->DB->rollBack();
-                echo json_encode($this->db->errorInfo());
+                echo json_encode($this->DB->errorInfo());
                 http_response_code(500);
             }
         }
@@ -99,7 +100,7 @@ class ProdutoControler {
                 http_response_code(200);
             }else{
                 $this->DB->rollBack();
-                echo json_encode($this->db->errorInfo());
+                echo json_encode($this->DB->errorInfo());
                 http_response_code(500);
             }
         }catch (\Exception $e) {

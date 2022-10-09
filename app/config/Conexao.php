@@ -1,5 +1,11 @@
 <?php
 
+namespace app\config;
+
+use Exception;
+use PDO;
+use PDOException;
+
 define('DB_HOST'     , "localhost");
 define('DB_USER'     , "user");
 define('DB_PASSWORD' , "123456789");
@@ -12,7 +18,8 @@ class Conexao
 
     private function __construct(){}
 
-    public static function getConnection() {
+    public static function getConnection(): PDO
+    {
 
         $dsn = "pgsql:host=".DB_HOST.";port=5432;dbname=".DB_NAME.";";
 

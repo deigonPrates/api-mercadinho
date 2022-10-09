@@ -1,16 +1,16 @@
 <?php
-include_once(getcwd().'/config/db.php');
 
-class VendaControler {
+namespace app\controllers;
 
-    private $DB;
+use Exception;
+use PDO;
 
-    public function __construct() {
-        $this->DB = Conexao::getConnection();
-    }
+
+class VendaControler extends BaseController {
 
     public function list(){
-        $result = $this->DB->query("SELECT * FROM vendas ORDER BY id DESC ")->fetchAll(PDO::FETCH_OBJ);
+        $result = $this->DB->query("SELECT * FROM vendas ORDER BY id DESC ")
+                            ->fetchAll(PDO::FETCH_OBJ);
         echo json_encode($result);
     }
 
@@ -38,7 +38,7 @@ class VendaControler {
                     http_response_code(201);
                 }else{
                     $this->DB->rollBack();
-                    echo json_encode($this->db->errorInfo());
+                    echo json_encode($this->DB->errorInfo());
                     http_response_code(500);
                 }
             } catch (\Throwable $th) {
@@ -51,8 +51,16 @@ class VendaControler {
     }
 
     public function read($id){
-        $result = $this->DB->query("SELECT * FROM vendas WHERE id = $id")->fetch(PDO::FETCH_OBJ);
-        echo json_encode($result);
+        $stmt = $this->DB->prepare("SELECT * FROM vendas WHERE id :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            echo json_encode($stmt->fetchAll(PDO::FETCH_OBJ));
+            http_response_code(200);
+        }else{
+            echo json_encode($this->DB->errorInfo());
+            http_response_code(500);
+        }
     }
 
     public function update($id){
@@ -71,7 +79,7 @@ class VendaControler {
                     http_response_code(200);
             }else{
                     $this->DB->rollBack();
-                    echo json_encode($this->db->errorInfo());
+                    echo json_encode($this->DB->errorInfo());
                     http_response_code(500);
             }
         }catch (\Exception $e) {
@@ -93,7 +101,6 @@ class VendaControler {
 
             if (!$stmt->execute()) {
                 throw new Exception('Falha ao inserir o item'+$item['id']);
-                break;
             }
         }
     }

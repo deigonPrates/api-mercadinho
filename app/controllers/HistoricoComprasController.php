@@ -1,13 +1,10 @@
 <?php
-include_once(getcwd().'/config/db.php');
 
-class HistoricoComprasController {
+namespace app\controllers;
 
-    private $DB;
+use PDO;
 
-    public function __construct() {
-        $this->DB = Conexao::getConnection();
-    }
+class HistoricoComprasController extends BaseController {
 
     public function get($venda_id){
         $stmt = $this->DB->prepare("SELECT * FROM venda_produtos  WHERE venda_id = :venda_id");
@@ -17,7 +14,7 @@ class HistoricoComprasController {
             echo json_encode($stmt->fetchAll(PDO::FETCH_OBJ));
             http_response_code(200);
         }else{
-            echo json_encode($this->db->errorInfo());
+            echo json_encode($this->DB->errorInfo());
             http_response_code(500);
         }
     }

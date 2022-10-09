@@ -1,10 +1,13 @@
 <?php
-include_once(getcwd().'/app/controllers/TipoControler.php');
+
+namespace app\router;
+
+use app\controllers\TipoControler;
 
 class TipoRotas {
 
     public static function boot(){
-        $tipo =  new TipoControler(); 
+        $tipo =  new TipoControler();
 
         switch($_SERVER["REQUEST_METHOD"]){
             case 'GET':

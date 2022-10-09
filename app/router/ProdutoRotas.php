@@ -1,5 +1,7 @@
 <?php
-include_once(getcwd().'/app/controllers/ProdutoControler.php');
+namespace app\router;
+
+use app\controllers\ProdutoControler;
 
 class ProdutoRotas {
 

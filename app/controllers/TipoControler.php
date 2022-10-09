@@ -1,16 +1,14 @@
 <?php
-include_once(getcwd().'/config/db.php');
 
-class TipoControler {
+namespace app\controllers;
 
-    private $DB;
+use PDO;
 
-    public function __construct() {
-        $this->DB = Conexao::getConnection();
-    }
+class TipoControler extends BaseController {
 
     public function list(){
-        $result = $this->DB->query("SELECT * FROM tipos ORDER BY id DESC ")->fetchAll(PDO::FETCH_OBJ);
+        $result = $this->DB->query("SELECT * FROM tipos ORDER BY id DESC ")
+                            ->fetchAll(PDO::FETCH_OBJ);
         echo json_encode($result);
     }
 
@@ -32,7 +30,7 @@ class TipoControler {
                 http_response_code(201);
             }else{
                 $this->DB->rollBack();
-                echo json_encode($this->db->errorInfo());
+                echo json_encode($this->DB->errorInfo());
                 http_response_code(500);
             }
         }
@@ -40,14 +38,21 @@ class TipoControler {
     }
 
     public function read($id){
-        $result = $this->DB->query("SELECT * FROM tipos WHERE id = $id")->fetch(PDO::FETCH_OBJ);
-        echo json_encode($result);
+        $stmt = $this->DB->prepare("SELECT * FROM tipos WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            echo json_encode($stmt->fetchAll(PDO::FETCH_OBJ));
+            http_response_code(200);
+        }else{
+            echo json_encode($this->DB->errorInfo());
+            http_response_code(500);
+        }
     }
 
     public function update($id){
         $erros = $this->validAll();
         if(!is_numeric($id) || empty($id)){
-
             echo json_encode(['Tipo inválido']);
             http_response_code(401);
         }
@@ -67,7 +72,7 @@ class TipoControler {
                 http_response_code(200);
             }else{
                 $this->DB->rollBack();
-                echo json_encode($this->db->errorInfo());
+                echo json_encode($this->DB->errorInfo());
                 http_response_code(500);
             }
         }
@@ -84,7 +89,7 @@ class TipoControler {
                     http_response_code(200);
             }else{
                     $this->DB->rollBack();
-                    echo json_encode($this->db->errorInfo());
+                    echo json_encode($this->DB->errorInfo());
                     http_response_code(500);
             }
         }catch (\Exception $e) {
