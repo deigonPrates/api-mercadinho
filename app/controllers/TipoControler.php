@@ -42,7 +42,7 @@ class TipoControler extends BaseController {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            echo json_encode($stmt->fetchAll(PDO::FETCH_OBJ));
+            echo json_encode($stmt->fetch(PDO::FETCH_OBJ));
             http_response_code(200);
         }else{
             echo json_encode($this->DB->errorInfo());
