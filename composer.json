@@ -12,6 +12,7 @@
         "test": "vendor\\bin\\phpunit"
     },
   "require": {
+    "php": "^7.4",
     "ext-pdo": "*",
     "ext-json": "*"
   }
