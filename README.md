@@ -40,3 +40,7 @@ Dump da base de dados (https://github.com//deigonPrates/api-mercadinho/blob/main
    ```
     php -S localhost:8080
    ```
+6) Em um novo terminal, (Dentro do mesmo diretório) execute os testes atravéz do<br>
+   ```
+    composer test
+   ```
