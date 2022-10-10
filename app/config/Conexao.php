@@ -1,9 +1,15 @@
 <?php
 
-define('DB_HOST'     , "localhost");
-define('DB_USER'     , "user");
-define('DB_PASSWORD' , "123456789");
-define('DB_NAME'     , "mercado");
+namespace app\config;
+
+use Exception;
+use PDO;
+use PDOException;
+
+define('DB_HOST'     , getenv('DB_HOST'));
+define('DB_USER'     , getenv('DB_USER'));
+define('DB_PASSWORD' , getenv('DB_PASSWORD'));
+define('DB_NAME'     , getenv('DB_NAME'));
 
 
 class Conexao
@@ -12,7 +18,8 @@ class Conexao
 
     private function __construct(){}
 
-    public static function getConnection() {
+    public static function getConnection(): PDO
+    {
 
         $dsn = "pgsql:host=".DB_HOST.";port=5432;dbname=".DB_NAME.";";
 

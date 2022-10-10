@@ -1,5 +1,8 @@
 <?php
-include_once(getcwd().'/app/controllers/HistoricoComprasController.php');
+
+namespace app\router;
+
+use app\controllers\HistoricoComprasController;
 
 class HistoricoComprasRotas {
 
