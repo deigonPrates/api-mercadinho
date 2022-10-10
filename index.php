@@ -4,8 +4,6 @@ include_once('cors.php');
 require 'vendor/autoload.php';
 
 $url = explode('/',$_SERVER['REQUEST_URI']);
-var_dump($_GET);
-
 
 switch ($url[1]) {
 	case 'produto':
