@@ -1,5 +1,5 @@
 ## Sobre
-A feita em PHP.  <br>veja uma demonstração (https://api-mercadinho-mts.herokuapp.com/)<br>
+API feita em PHP.  <br>veja uma demonstração (https://api-mercadinho-mts.herokuapp.com/)<br>
 Rotas (https://github.com//deigonPrates/api-mercadinho/blob/main/.files/Insomnia.json)<br>
 Dump da base de dados (https://github.com//deigonPrates/api-mercadinho/blob/main/.files/database.sql)
 
