@@ -39,11 +39,14 @@ class VendaControler extends BaseController {
                 }else{
                     $this->DB->rollBack();
                     echo json_encode($this->DB->errorInfo());
+                    
+                    exit();
                     http_response_code(500);
                 }
             } catch (\Throwable $th) {
                 $this->DB->rollBack();
                 echo json_encode($th);
+                exit();
                 http_response_code(500);
             }
         }
