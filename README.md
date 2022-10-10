@@ -6,7 +6,7 @@ Dump da base de dados (https://github.com//deigonPrates/api-mercadinho/blob/main
 
 ## Requisitos⚠️
 
-- PHP 7.4 ou superior (https://www.php.net/i)
+- PHP 7.4 ou superior (https://www.php.net/)
 - Composer (https://getcomposer.org/)
 - Dlls do PostgreSQL habilitadas (https://www.phptutorial.net/php-pdo/pdo-connecting-to-postgresql/)
 
