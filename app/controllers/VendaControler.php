@@ -103,7 +103,7 @@ class VendaControler extends BaseController {
             $stmt->bindParam(':valor_total',    $item['valor_total'],    PDO::PARAM_STR);
 
             if (!$stmt->execute()) {
-                throw new Exception('Falha ao inserir o item'+$item['id']);
+                die('Falha ao inserir o item'+$item['id']);
             }
         }
     }
